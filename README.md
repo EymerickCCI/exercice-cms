@@ -115,3 +115,22 @@ mdp : 123456
 /blog/{slug} → détail article
 /galeries → liste
 /galerie/{id} → détail
+
+
+
+Actuellement il manque : 
+    -> Design 
+    -> EasyAdmin (avec DashboardController et CrudController de User, Page, Article, Tag, Galerie/image, Commentaire)
+    -> Fonctionnalités : 
+        - Edition WYSIWYG
+        - Filtrage / Recherche
+        - Restriction par rôle / restriction route (security.yaml)
+        - Gestion des images dans EasyAdmin
+        - Gestion commentaires
+        - Visibilité Articles selon isPublish 
+        - fil d'arianne
+        - Sauvegarde auto 
+
+
+Possibilité : 
+    - Slugify pour slug automatique si titre vide
