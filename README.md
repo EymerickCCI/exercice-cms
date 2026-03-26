@@ -1,3 +1,8 @@
+########## INFORMATIONS ##########
+User : 
+mdp : 123456
+
+########## INSTALLATION ##########
 1. Creation dépôt GitHub
 2. Installation symfony + packages
     Pour le package bootstrap taper : 

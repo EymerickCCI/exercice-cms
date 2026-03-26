@@ -179,7 +179,10 @@
         </p>
         <div class="d-flex flex-wrap gap-3">
             <a href="{{ path('app_article_index') }}" class="btn-ink">Lire le blog</a>
+            <a href="{{ path('app_tag_index') }}" class="btn-outline-ink">Voir les tags</a>
+            <a href="{{ path('app_category_index') }}" class="btn-outline-ink">Voir les categories</a>
             <a href="{{ path('app_gallery_index') }}" class="btn-outline-ink">Voir les galeries</a>
+            
         </div>
     </div>
 </section>
@@ -248,7 +251,7 @@
                         </div>
 
                         <h3 class="article-card-title">
-                            <a href="{{ path('app_article_show', {slug: article.slug}) }}">{{ article.title }}</a>
+                            <a href="{{ path('app_article_show', {id: article.id}) }}">{{ article.title }}</a>
                         </h3>
 
                         {% if article.metaDescription %}
@@ -257,9 +260,9 @@
                         <p class="article-card-excerpt">{{ article.content|striptags|slice(0, 140) }}…</p>
                         {% endif %}
 
-                        <a href="{{ path('app_article_show', {slug: article.slug}) }}"
-                           class="d-inline-flex align-items-center gap-2"
-                           style="font-size:0.875rem; font-weight:500;">
+                        <a href="{{ path('app_article_show', {id: article.id}) }}"
+                        class="d-inline-flex align-items-center gap-2"
+                        style="font-size:0.875rem; font-weight:500;">
                             Lire l'article <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>

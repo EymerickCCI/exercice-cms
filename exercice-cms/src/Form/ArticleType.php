@@ -30,12 +30,17 @@ class ArticleType extends AbstractType
             ->add('featuredImage')
             ->add('author', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'id',
+                'choice_label' => 'firstname',
             ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'multiple' => true,
+                'required' => false,
+                'attr' => [
+                    'required' => false,
+                ],
+                'label' => 'Tags (facultatif)',
             ])
             ->add('category', EntityType::class, [
                 'class' => category::class,

@@ -19,6 +19,7 @@ class TagType extends AbstractType
                 'class' => Article::class,
                 'choice_label' => 'id',
                 'multiple' => true,
+                'required' => false,
             ])
         ;
     }
