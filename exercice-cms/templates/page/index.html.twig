@@ -1,20 +1,178 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PageController!{% endblock %}
+{% block title %}{{ page.title }} — {{ site_name|default('MonCMS') }}{% endblock %}
+{% block meta_description %}{{ page.metaDescription|default(page.content|striptags|slice(0,155)) }}{% endblock %}
+
+{% block page_styles %}
+.page-hero {
+    padding: 4rem 0 3rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.page-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+}
+
+.page-breadcrumb {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.page-breadcrumb a { color: var(--color-muted); }
+.page-breadcrumb a:hover { color: var(--color-ink); }
+
+/* ── Page body ── */
+.page-body {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: #222;
+    max-width: 72ch;
+}
+
+.page-body h2 { font-size: 1.6rem; margin-top: 3rem; margin-bottom: 0.75rem; }
+.page-body h3 { font-size: 1.25rem; margin-top: 2rem; margin-bottom: 0.5rem; }
+.page-body p  { margin-bottom: 1.25rem; }
+.page-body ul, .page-body ol { margin-bottom: 1.25rem; padding-left: 1.5rem; }
+.page-body li { margin-bottom: 0.4rem; }
+
+.page-body a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--color-ink);
+}
+
+.page-body blockquote {
+    border-left: 3px solid var(--color-ink);
+    margin: 2rem 0;
+    padding: 1rem 1.5rem;
+    background: var(--color-surface);
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+}
+
+.page-body img {
+    border-radius: var(--radius);
+    margin: 1.5rem 0;
+    max-width: 100%;
+}
+
+/* ── Sous-pages ── */
+.child-page-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    transition: all var(--transition);
+    color: var(--color-ink);
+    text-decoration: none;
+}
+
+.child-page-link:hover {
+    border-color: var(--color-ink);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    color: var(--color-ink);
+}
+
+.child-page-title {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    margin-bottom: 0;
+}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{# ══ HERO ══ #}
+<section class="page-hero">
+    <div class="container fade-in">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        {# Breadcrumb #}
+        <div class="page-breadcrumb">
+            <a href="{{ path('app_home') }}">Accueil</a>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/MAMP/htdocs/16-Symfony/1-exercice/exercice-cms/exercice-cms/src/Controller/PageController.php</code></li>
-        <li>Your template at <code>C:/MAMP/htdocs/16-Symfony/1-exercice/exercice-cms/exercice-cms/templates/page/index.html.twig</code></li>
-    </ul>
-</div>
+            {% if page.parent %}
+            <i class="bi bi-chevron-right" style="font-size:0.65rem;"></i>
+            <a href="{{ path('app_page_show', {slug: page.parent.slug}) }}">{{ page.parent.title }}</a>
+            {% endif %}
+
+            <i class="bi bi-chevron-right" style="font-size:0.65rem;"></i>
+            <span>{{ page.title }}</span>
+        </div>
+
+        <h1 class="page-title">{{ page.title }}</h1>
+
+        <div style="font-size:0.8rem; color:var(--color-muted); margin-top:0.75rem;">
+            Mise à jour le {{ page.updatedAt|date('d M Y') }}
+        </div>
+    </div>
+</section>
+
+{# ══ CONTENU ══ #}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="page-body">
+                    {{ page.content|raw }}
+                </div>
+
+                {# Sous-pages (enfants) #}
+                {% if page.children is defined and page.children|length > 0 %}
+                <div class="mt-5 pt-4" style="border-top:1px solid var(--color-border);">
+                    <p class="section-label mb-3">Pages liées</p>
+                    <div class="d-flex flex-column gap-3">
+                        {% for child in page.children %}
+                        {% if child.isPublished %}
+                        <a href="{{ path('app_page_show', {slug: child.slug}) }}" class="child-page-link">
+                            <h3 class="child-page-title">{{ child.title }}</h3>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            {# ── Sidebar navigation ── #}
+            {% if page.parent and page.parent.children|length > 1 %}
+            <aside class="col-lg-3 offset-lg-1">
+                <div style="position:sticky; top:80px;">
+                    <p class="section-label mb-3">Dans cette section</p>
+                    <ul class="list-unstyled mb-0">
+                        {% for sibling in page.parent.children %}
+                        {% if sibling.isPublished %}
+                        <li>
+                            <a href="{{ path('app_page_show', {slug: sibling.slug}) }}"
+                               class="d-block py-2 px-0"
+                               style="font-size:0.875rem;
+                                      color: {{ sibling.slug == page.slug ? 'var(--color-ink)' : 'var(--color-muted)' }};
+                                      font-weight: {{ sibling.slug == page.slug ? '600' : '400' }};
+                                      border-bottom: 1px solid var(--color-border);">
+                                {% if sibling.slug == page.slug %}
+                                <i class="bi bi-dot me-1"></i>
+                                {% endif %}
+                                {{ sibling.title }}
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </aside>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
 {% endblock %}

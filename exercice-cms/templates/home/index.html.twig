@@ -1,20 +1,319 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil — {{ site_name|default('MonCMS') }}{% endblock %}
+{% block meta_description %}Bienvenue sur {{ site_name|default('MonCMS') }}, votre CMS propulsé par Symfony.{% endblock %}
+
+{% block page_styles %}
+.hero {
+    padding: 6rem 0 5rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.hero-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 1.5rem;
+}
+
+.hero-title {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    max-width: 16ch;
+    margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-muted);
+    font-weight: 300;
+    max-width: 42ch;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+.section-header {
+    padding: 3.5rem 0 2rem;
+}
+
+/* ── Article cards ── */
+.article-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--color-white);
+    transition: box-shadow var(--transition), transform var(--transition);
+    height: 100%;
+}
+
+.article-card:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+.article-card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: var(--color-surface);
+}
+
+.article-card-img-placeholder {
+    width: 100%;
+    height: 200px;
+    background: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-border);
+    font-size: 2rem;
+}
+
+.article-card-body {
+    padding: 1.5rem;
+}
+
+.article-card-meta {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.article-card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.6rem;
+    line-height: 1.25;
+}
+
+.article-card-excerpt {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ── Gallery strip ── */
+.gallery-strip-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    aspect-ratio: 4/3;
+    cursor: pointer;
+}
+
+.gallery-strip-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.gallery-strip-item:hover .gallery-strip-img {
+    transform: scale(1.05);
+}
+
+.gallery-strip-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+    display: flex;
+    align-items: flex-end;
+    padding: 1.25rem;
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.gallery-strip-item:hover .gallery-strip-overlay {
+    opacity: 1;
+}
+
+.gallery-strip-overlay-text {
+    color: #fff;
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+}
+
+/* ── Stats bar ── */
+.stats-bar {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: 2.5rem 0;
+}
+
+.stat-number {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-top: 0.25rem;
+}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{# ══ HERO ══ #}
+<section class="hero">
+    <div class="container fade-in">
+        <p class="hero-eyebrow">Bienvenue</p>
+        <h1 class="hero-title">Des contenus.<br><em>Une présence.</em></h1>
+        <p class="hero-subtitle">
+            Retrouvez nos articles, pages et galeries photo au même endroit —<br>
+            organisé, rapide, facile à parcourir.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+            <a href="{{ path('app_article_index') }}" class="btn-ink">Lire le blog</a>
+            <a href="{{ path('app_gallery_index') }}" class="btn-outline-ink">Voir les galeries</a>
+        </div>
+    </div>
+</section>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/MAMP/htdocs/16-Symfony/1-exercice/exercice-cms/exercice-cms/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>C:/MAMP/htdocs/16-Symfony/1-exercice/exercice-cms/exercice-cms/templates/home/index.html.twig</code></li>
-    </ul>
+{# ══ STATS BAR ══ #}
+{% if stats is defined %}
+<div class="stats-bar">
+    <div class="container">
+        <div class="row g-4 text-center text-lg-start">
+            <div class="col-6 col-lg-3">
+                <div class="stat-number">{{ stats.articles|default(0) }}</div>
+                <div class="stat-label">Articles publiés</div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-number">{{ stats.galleries|default(0) }}</div>
+                <div class="stat-label">Galeries</div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-number">{{ stats.images|default(0) }}</div>
+                <div class="stat-label">Photos</div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-number">{{ stats.categories|default(0) }}</div>
+                <div class="stat-label">Catégories</div>
+            </div>
+        </div>
+    </div>
 </div>
+{% endif %}
+
+{# ══ DERNIERS ARTICLES ══ #}
+<section class="py-5">
+    <div class="container">
+        <div class="section-header d-flex align-items-end justify-content-between flex-wrap gap-2">
+            <div>
+                <p class="section-label mb-1">Blog</p>
+                <h2 class="fs-2 mb-0">Derniers articles</h2>
+            </div>
+            <a href="{{ path('app_article_index') }}" class="btn-outline-ink d-inline-flex align-items-center gap-2">
+                Tous les articles <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        {% if latest_articles is not empty %}
+        <div class="row g-4">
+            {% for article in latest_articles %}
+            <div class="col-md-6 col-lg-4">
+                <article class="article-card">
+                    {% if article.featuredImage %}
+                        <img src="/uploads/articles/{{ article.featuredImage }}"
+                             alt="{{ article.title }}"
+                             class="article-card-img">
+                    {% else %}
+                        <div class="article-card-img-placeholder">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    {% endif %}
+
+                    <div class="article-card-body">
+                        <div class="article-card-meta">
+                            {% if article.category %}
+                            <a href="{{ path('app_article_index', {category: article.category.slug}) }}"
+                               class="tag-pill">{{ article.category.name }}</a>
+                            {% endif %}
+                            <span>{{ article.createdAt|date('d M Y') }}</span>
+                        </div>
+
+                        <h3 class="article-card-title">
+                            <a href="{{ path('app_article_show', {slug: article.slug}) }}">{{ article.title }}</a>
+                        </h3>
+
+                        {% if article.metaDescription %}
+                        <p class="article-card-excerpt">{{ article.metaDescription }}</p>
+                        {% else %}
+                        <p class="article-card-excerpt">{{ article.content|striptags|slice(0, 140) }}…</p>
+                        {% endif %}
+
+                        <a href="{{ path('app_article_show', {slug: article.slug}) }}"
+                           class="d-inline-flex align-items-center gap-2"
+                           style="font-size:0.875rem; font-weight:500;">
+                            Lire l'article <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5" style="color: var(--color-muted);">
+            <i class="bi bi-file-earmark-text fs-1 d-block mb-3"></i>
+            <p>Aucun article publié pour le moment.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{# ══ GALERIES ══ #}
+{% if latest_galleries is not empty %}
+<section class="py-5" style="border-top: 1px solid var(--color-border);">
+    <div class="container">
+        <div class="section-header d-flex align-items-end justify-content-between flex-wrap gap-2">
+            <div>
+                <p class="section-label mb-1">Photos</p>
+                <h2 class="fs-2 mb-0">Galeries récentes</h2>
+            </div>
+            <a href="{{ path('app_gallery_index') }}" class="btn-outline-ink d-inline-flex align-items-center gap-2">
+                Toutes les galeries <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="row g-3">
+            {% for galerie in latest_galleries %}
+            <div class="col-6 col-lg-3">
+                <a href="{{ path('app_gallery_show', {id: galerie.id}) }}" class="gallery-strip-item d-block">
+                    {% set first_image = galerie.images|first %}
+                    {% if first_image %}
+                        <img src="/uploads/galeries/{{ first_image.filename }}"
+                             alt="{{ galerie.title }}"
+                             class="gallery-strip-img">
+                    {% else %}
+                        <div class="gallery-strip-img d-flex align-items-center justify-content-center"
+                             style="background:var(--color-surface); color:var(--color-border); font-size:2rem;">
+                            <i class="bi bi-images"></i>
+                        </div>
+                    {% endif %}
+                    <div class="gallery-strip-overlay">
+                        <span class="gallery-strip-overlay-text">{{ galerie.title }}</span>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
 {% endblock %}
