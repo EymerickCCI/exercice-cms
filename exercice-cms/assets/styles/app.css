@@ -1,3 +1,155 @@
-body {
-    background-color: lightgray;
+:root {
+    --color-bg: #f7f8fb;
+    --color-surface: #ffffff;
+    --color-primary: #0d6efd;
+    --color-primary-hover: #0b5ed7;
+    --color-secondary: #6c757d;
+    --color-text: #212529;
+    --color-muted: #6c757d;
+    --color-border: #e7eaf3;
+    --color-shadow: rgba(20, 32, 50, 0.08);
+    --border-radius: 0.75rem;
+    --transition: 0.25s ease;
+    --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-heading: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    line-height: 1.6;
+    color: var(--color-text);
+    background: linear-gradient(180deg, #f2f5fb 0%, #f7f8fb 100%);
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 1140px;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #0b254c;
+    color: #fff;
+}
+
+.site-header .navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #fff;
+}
+
+.site-header .nav-link {
+    color: rgba(255,255,255,0.88);
+}
+
+.site-header .nav-link:hover,
+.site-header .nav-link.active {
+    color: #ffffff;
+}
+
+.site-main {
+    min-height: calc(100vh - 130px);
+}
+
+.site-footer {
+    background: #0e1938;
+    color: #d8e0f3;
+}
+
+.site-footer a {
+    color: #b8c4e8;
+}
+
+.btn-ink,
+.btn-outline-ink {
+    font-weight: 600;
+    border-radius: 0.65rem;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid transparent;
+    transition: all var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.btn-ink {
+    color: #fff;
+    background: linear-gradient(135deg, #11468f 0%, #1f81ff 100%);
+}
+
+.btn-ink:hover {
+    background: linear-gradient(135deg, #0e3f81 0%, #1b6ee0 100%);
+    transform: translateY(-1px);
+}
+
+.btn-outline-ink {
+    color: #0d6efd;
+    background: rgba(13, 110, 253, 0.07);
+    border-color: rgba(13, 110, 253, 0.22);
+}
+
+.btn-outline-ink:hover {
+    background: rgba(13, 110, 253, 0.18);
+    border-color: rgba(13, 110, 253, 0.41);
+}
+
+.tag-pill {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid rgba(13, 110, 253, 0.25);
+    color: #0d6efd;
+    background: rgba(13, 110, 253, 0.08);
+    text-decoration: none;
+}
+
+.section-label {
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Cartes et sections initialisées par home/index et page_styles */
+.hero,
+.stats-bar,
+.article-card,
+.gallery-strip-item {
+    box-shadow: 0 8px 30px var(--color-shadow);
+}
+

@@ -13,6 +13,34 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header class="site-header navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" href="{{ path('app_home') }}">{{ site_name|default('MonCMS') }}</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Afficher le menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_home') }}">Accueil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_article_index') }}">Blog</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_gallery_index') }}">Galeries</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_category_index') }}">Catégories</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_tag_index') }}">Tags</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <main class="site-main">
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="site-footer text-center py-4 mt-auto">
+            <div class="container">
+                <p class="mb-1">&copy; {{ "now"|date('Y') }} {{ site_name|default('MonCMS') }}. Tous droits réservés.</p>
+                <small class="text-muted">Créé avec Symfony et Bootstrap pour un CMS moderne.</small>
+            </div>
+        </footer>
     </body>
 </html>
