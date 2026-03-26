@@ -1,5 +1,17 @@
 1. Creation dépôt GitHub
 2. Installation symfony + packages
+    Pour le package bootstrap taper : 
+        composer require symfony/webpack-encore-bundle
+        npm install
+        npm install bootstrap @popperjs/core
+        
+        # Si vulnérabilité, erreurs :
+        npm audit fix --force
+
+    - ajouter dans assets/styles/app.js : 
+        import 'bootstrap';
+        import 'bootstrap/dist/css/bootstrap.min.css';
+
 3. Creation BDD
 4. Ajouts user
 5. Ajouts des entités : 
@@ -88,3 +100,13 @@
     -> php bin/console make:auth
     dans config/packages/security.yaml 
     à la partie "access_control" rajouer en fonction des routes les accès aux différents rôles.
+
+
+10. Les pages : 
+
+/ → accueil
+/page/{slug} → pages CMS
+/blog → liste articles
+/blog/{slug} → détail article
+/galeries → liste
+/galerie/{id} → détail
