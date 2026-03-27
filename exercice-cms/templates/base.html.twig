@@ -8,6 +8,10 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
+        <style>
+        {% block page_styles %}{% endblock %}
+        </style>
+
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
