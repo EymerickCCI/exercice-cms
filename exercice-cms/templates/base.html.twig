@@ -13,6 +13,17 @@
         </style>
 
         {% block javascripts %}
+
+            <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+            <script>
+                CKEDITOR.replace('article_content', {
+                    height: 300,
+                    uiColor: '#ffffff',
+                    toolbar: 'Full'
+                });
+            </script>
+
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>

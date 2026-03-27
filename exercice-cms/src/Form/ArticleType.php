@@ -10,6 +10,9 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 class ArticleType extends AbstractType
 {
@@ -18,33 +21,26 @@ class ArticleType extends AbstractType
         $builder
             ->add('title')
             ->add('slug')
-            ->add('content')
+            ->add('content', CKEditorType::class, [
+                'config_name' => 'default', // correspond à la config du YAML
+            ])
             ->add('metaDescription')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
             ->add('isPublished')
-            ->add('featuredImage')
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'firstname',
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
             ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
                 'choice_label' => 'name',
                 'multiple' => true,
                 'required' => false,
-                'attr' => [
-                    'required' => false,
-                ],
                 'label' => 'Tags (facultatif)',
             ])
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
-                'choice_label' => 'id',
+            ->add('featuredImage', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'Image mise en avant',
             ])
         ;
     }

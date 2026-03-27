@@ -30,6 +30,22 @@ final class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // ✅ Upload de l'image
+            $file = $form->get('featuredImage')->getData();
+            if ($file) {
+                $filename = uniqid() . '.' . $file->guessExtension();
+                $file->move(
+                    $this->getParameter('articles_directory'), // à configurer dans services.yaml
+                    $filename
+                );
+                $article->setFeaturedImage($filename);
+            }
+
+            // ✅ Author et dates automatiques
+            $article->setAuthor($this->getUser());
+            $article->setCreatedAt(new \DateTimeImmutable());
+            $article->setUpdatedAt(new \DateTimeImmutable());
+
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -57,6 +73,20 @@ final class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // ✅ Upload image si nouvelle image
+            $file = $form->get('featuredImage')->getData();
+            if ($file) {
+                $filename = uniqid() . '.' . $file->guessExtension();
+                $file->move(
+                    $this->getParameter('articles_directory'),
+                    $filename
+                );
+                $article->setFeaturedImage($filename);
+            }
+
+            // ✅ Mise à jour de la date
+            $article->setUpdatedAt(new \DateTimeImmutable());
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);

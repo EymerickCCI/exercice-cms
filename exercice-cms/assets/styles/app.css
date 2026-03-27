@@ -122,6 +122,18 @@ a:hover {
     color: #0d6efd;
     background: rgba(13, 110, 253, 0.08);
     text-decoration: none;
+    transition: all var(--transition);
+}
+
+.tag-pill:hover {
+    background: rgba(13, 110, 253, 0.15);
+    border-color: rgba(13, 110, 253, 0.4);
+    color: #0b5ed7;
+}
+
+.tag-pill-large {
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
 }
 
 .section-label {
@@ -151,5 +163,112 @@ a:hover {
 .article-card,
 .gallery-strip-item {
     box-shadow: 0 8px 30px var(--color-shadow);
+}
+
+/* Formulaire Article CMS */
+.article-form-wrapper {
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: 0 10px 32px rgba(20, 32, 50, 0.09);
+    margin-bottom: 1.5rem;
+}
+
+.article-form-wrapper .form-control,
+.article-form-wrapper .form-select,
+.article-form-wrapper .form-check-input {
+    font-size: 0.95rem;
+    padding: 0.58rem 0.75rem;
+    border-radius: 0.65rem;
+}
+
+.article-form-wrapper .form-select {
+    min-height: 2.65rem;
+}
+
+.article-form-wrapper label {
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    color: #102147;
+}
+
+.article-form-wrapper .form-actions {
+    margin-top: 1.6rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.article-form-wrapper .btn-outline-secondary {
+    border-color: #0f6efd;
+    color: #0f6efd;
+}
+
+.article-form-wrapper .btn-outline-secondary:hover {
+    background: #0f6efd;
+    color: #fff;
+}
+
+.article-form-wrapper h1,
+.article-form-wrapper h2,
+.article-form-wrapper h3 {
+    font-family: var(--font-heading);
+    color: #0b254c;
+    margin-bottom: 1rem;
+}
+
+.article-form-wrapper .card {
+    border: 1px solid var(--color-border);
+    box-shadow: 0 5px 16px rgba(20, 32, 50, 0.06);
+}
+
+.article-form-wrapper .card h5 {
+    font-size: 0.9rem;
+    color: #0f6efd;
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+}
+
+.article-form-wrapper .form-control {
+    border-radius: 0.55rem;
+    border: 1px solid var(--color-border);
+    box-shadow: none;
+}
+
+.article-form-wrapper .form-control:focus {
+    border-color: #0f6efd;
+    box-shadow: 0 0 0 0.14rem rgba(15, 110, 253, 0.2);
+}
+
+.article-form-wrapper .form-group {
+    margin-bottom: 1rem;
+}
+
+.article-form-wrapper .btn-primary {
+    border-radius: 0.65rem;
+    padding: 0.75rem 1.35rem;
+}
+
+.article-form-wrapper .btn-primary:hover,
+.article-form-wrapper .btn-primary:focus {
+    background: #0b5ed7;
+}
+
+.article-form-wrapper .form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .article-form-wrapper {
+        padding: 1rem;
+    }
+
+    .article-form-wrapper .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }
 
