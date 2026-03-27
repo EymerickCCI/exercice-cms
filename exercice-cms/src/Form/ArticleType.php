@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Article;
-use App\Entity\category;
+use App\Entity\Category;
 use App\Entity\Tag;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -43,7 +43,7 @@ class ArticleType extends AbstractType
                 'label' => 'Tags (facultatif)',
             ])
             ->add('category', EntityType::class, [
-                'class' => category::class,
+                'class' => Category::class,
                 'choice_label' => 'id',
             ])
         ;
