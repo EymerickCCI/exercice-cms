@@ -1,40 +1,97 @@
-{{ form_start(form, {'attr': {'class': 'article-form'}}) }}
-<div class="article-form-wrapper">
-    <div class="row gx-4 gy-3">
-        <div class="col-md-8">
-            {{ form_row(form.title, { attr: { class: 'form-control' } }) }}
-            {{ form_row(form.slug, { attr: { class: 'form-control' } }) }}
-            {{ form_row(form.content) }}
-            {{ form_row(form.metaDescription, { attr: { class: 'form-control' } }) }}
+{{ form_start(form, {attr: {class: 'article-form', enctype: 'multipart/form-data'}}) }}
+
+<div class="container py-4">
+    <div class="row g-4">
+
+        {# ── Colonne principale ── #}
+        <div class="col-lg-8">
+            <div style="background:#fff; border:1px solid #e7eaf3; border-radius:16px; padding:2rem; box-shadow:0 2px 12px rgba(0,0,0,.05);">
+
+                <div class="mb-4">
+                    {{ form_label(form.title, 'Titre', {label_attr: {style: 'font-weight:700; color:#0b254c; font-size:.9rem; margin-bottom:.4rem; display:block;'}}) }}
+                    {{ form_widget(form.title, {attr: {class: 'form-control', style: 'border-radius:10px; padding:.7rem 1rem; font-size:1.1rem; font-weight:600; border:1.5px solid #e7eaf3;', placeholder: 'Titre de votre article…'}}) }}
+                    {{ form_errors(form.title) }}
+                </div>
+
+                <div class="mb-4">
+                    {{ form_label(form.slug, 'Slug (URL)', {label_attr: {style: 'font-weight:700; color:#0b254c; font-size:.9rem; margin-bottom:.4rem; display:block;'}}) }}
+                    {{ form_widget(form.slug, {attr: {class: 'form-control', style: 'border-radius:10px; padding:.7rem 1rem; border:1.5px solid #e7eaf3; font-family:monospace;', placeholder: 'slug-de-larticle'}}) }}
+                    {{ form_errors(form.slug) }}
+                </div>
+
+                <div class="mb-4">
+                    {{ form_label(form.content, 'Contenu', {label_attr: {style: 'font-weight:700; color:#0b254c; font-size:.9rem; margin-bottom:.4rem; display:block;'}}) }}
+                    {{ form_widget(form.content) }}
+                    {{ form_errors(form.content) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.metaDescription, 'Méta-description (SEO)', {label_attr: {style: 'font-weight:700; color:#0b254c; font-size:.9rem; margin-bottom:.4rem; display:block;'}}) }}
+                    {{ form_widget(form.metaDescription, {attr: {class: 'form-control', rows: 2, style: 'border-radius:10px; border:1.5px solid #e7eaf3;', placeholder: 'Description pour les moteurs de recherche (155 caractères max)'}}) }}
+                    {{ form_errors(form.metaDescription) }}
+                </div>
+            </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card p-3 mb-3">
-                <h5>Publication</h5>
-                {{ form_row(form.isPublished, { attr: { class: 'form-check-input' } }) }}
+        {# ── Colonne latérale ── #}
+        <div class="col-lg-4">
+
+            {# Publication #}
+            <div style="background:#fff; border:1px solid #e7eaf3; border-radius:16px; padding:1.5rem; margin-bottom:1rem; box-shadow:0 2px 8px rgba(0,0,0,.04);">
+                <h5 style="font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#0f6efd; margin-bottom:1rem;">
+                    <i class="bi bi-broadcast me-1"></i>Publication
+                </h5>
+                <div class="d-flex align-items-center gap-2">
+                    {{ form_widget(form.isPublished, {attr: {class: 'form-check-input', style: 'width:1.25em; height:1.25em; accent-color:#0f6efd;'}}) }}
+                    {{ form_label(form.isPublished, 'Publier cet article', {label_attr: {style: 'font-size:.9rem; font-weight:500; color:#0b254c; cursor:pointer;'}}) }}
+                </div>
+                {{ form_errors(form.isPublished) }}
             </div>
 
-            <div class="card p-3 mb-3">
-                <h5>Catégorie</h5>
-                {{ form_row(form.category, { attr: { class: 'form-select' } }) }}
+            {# Catégorie #}
+            <div style="background:#fff; border:1px solid #e7eaf3; border-radius:16px; padding:1.5rem; margin-bottom:1rem; box-shadow:0 2px 8px rgba(0,0,0,.04);">
+                <h5 style="font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#0f6efd; margin-bottom:1rem;">
+                    <i class="bi bi-folder me-1"></i>Catégorie
+                </h5>
+                {{ form_widget(form.category, {attr: {class: 'form-select', style: 'border-radius:10px; border:1.5px solid #e7eaf3;'}}) }}
+                {{ form_errors(form.category) }}
             </div>
 
-            <div class="card p-3 mb-3">
-                <h5>Tags</h5>
-                {{ form_row(form.tags, { attr: { class: 'form-select', size: '5' } }) }}
+            {# Tags #}
+            <div style="background:#fff; border:1px solid #e7eaf3; border-radius:16px; padding:1.5rem; margin-bottom:1rem; box-shadow:0 2px 8px rgba(0,0,0,.04);">
+                <h5 style="font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#0f6efd; margin-bottom:1rem;">
+                    <i class="bi bi-tags me-1"></i>Tags
+                </h5>
+                {{ form_widget(form.tags, {attr: {class: 'form-select', size: '5', style: 'border-radius:10px; border:1.5px solid #e7eaf3;'}}) }}
+                <p style="font-size:.75rem; color:#6c757d; margin-top:.4rem; margin-bottom:0;">Ctrl+clic pour sélection multiple</p>
+                {{ form_errors(form.tags) }}
             </div>
 
-            <div class="card p-3 mb-3">
-                <h5>Image mise en avant</h5>
-                {{ form_row(form.featuredImage, { attr: { class: 'form-control' } }) }}
+            {# Image #}
+            <div style="background:#fff; border:1px solid #e7eaf3; border-radius:16px; padding:1.5rem; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.04);">
+                <h5 style="font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#0f6efd; margin-bottom:1rem;">
+                    <i class="bi bi-image me-1"></i>Image mise en avant
+                </h5>
+                {{ form_widget(form.featuredImage, {attr: {class: 'form-control', style: 'border-radius:10px; border:1.5px solid #e7eaf3;'}}) }}
+                {{ form_errors(form.featuredImage) }}
+            </div>
+
+            {# Actions #}
+            <div style="display:flex; flex-direction:column; gap:.75rem;">
+                <button type="submit"
+                        style="width:100%; padding:.85rem; background:linear-gradient(135deg,#0f6efd,#0b5ed7);
+                               color:#fff; border:none; border-radius:12px; font-weight:700; font-size:1rem;
+                               cursor:pointer; box-shadow:0 4px 14px rgba(15,110,253,.3);">
+                    <i class="bi bi-check-lg me-1"></i>{{ button_label|default('Enregistrer') }}
+                </button>
+                <a href="{{ path('app_article_index') }}"
+                   style="text-align:center; padding:.75rem; border:1.5px solid #e7eaf3; border-radius:12px;
+                          color:#495057; text-decoration:none; font-weight:500; font-size:.9rem;">
+                    Annuler
+                </a>
             </div>
         </div>
     </div>
-</div>
-
-<div class="form-actions">
-    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
-    <a href="{{ path('app_article_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
 </div>
 
 {{ form_end(form) }}

@@ -1,49 +1,150 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article index{% endblock %}
+{% block title %}Blog — MonCMS{% endblock %}
+{% block meta_description %}Découvrez tous nos articles de blog.{% endblock %}
 
 {% block body %}
-    <h1>Article index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Slug</th>
-                <th>Content</th>
-                <th>MetaDescription</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>IsPublished</th>
-                <th>FeaturedImage</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for article in articles %}
-            <tr>
-                <td>{{ article.id }}</td>
-                <td>{{ article.title }}</td>
-                <td>{{ article.slug }}</td>
-                <td>{{ article.content }}</td>
-                <td>{{ article.metaDescription }}</td>
-                <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ article.isPublished ? 'Yes' : 'No' }}</td>
-                <td>{{ article.featuredImage }}</td>
-                <td>
-                    <a href="{{ path('app_article_show', {'id': article.id}) }}">show</a>
-                    <a href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
-                </td>
-            </tr>
+{# ── HERO ── #}
+<section style="background:linear-gradient(135deg,#0b254c 0%,#1a3a5c 100%); padding:4rem 0 3rem; color:#fff;">
+    <div class="container">
+        {# Breadcrumb #}
+        <nav aria-label="breadcrumb" style="margin-bottom:1rem;">
+            <ol class="breadcrumb mb-0" style="font-size:.8rem; opacity:.7;">
+                <li class="breadcrumb-item"><a href="{{ path('app_home') }}" style="color:rgba(255,255,255,.7);">Accueil</a></li>
+                <li class="breadcrumb-item active" style="color:rgba(255,255,255,.9);">Blog</li>
+            </ol>
+        </nav>
+        <h1 style="font-family:'Poppins',sans-serif; font-weight:800; font-size:clamp(2rem,5vw,3rem); margin-bottom:.5rem;">
+            <i class="bi bi-newspaper me-2" style="color:#4fa3ff;"></i>Blog
+        </h1>
+        <p style="opacity:.8; font-size:1.05rem; margin-bottom:0;">
+            {{ articles|length }} article{{ articles|length > 1 ? 's' : '' }} disponible{{ articles|length > 1 ? 's' : '' }}
+        </p>
+    </div>
+</section>
+
+{# ── FILTRES ── #}
+<div style="background:#fff; border-bottom:1px solid #e7eaf3; padding:1rem 0; position:sticky; top:62px; z-index:100;">
+    <div class="container">
+        <form method="get" action="{{ path('app_article_index') }}" class="d-flex flex-wrap gap-2 align-items-center">
+            {# Recherche #}
+            <div class="d-flex" style="flex:1; min-width:200px; max-width:320px;">
+                <input type="text" name="q" value="{{ search|default('') }}"
+                       placeholder="Rechercher…"
+                       class="form-control form-control-sm"
+                       style="border-radius:8px 0 0 8px; border-right:none;">
+                <button type="submit" class="btn btn-primary btn-sm" style="border-radius:0 8px 8px 0;">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+
+            {# Catégories #}
+            <div class="d-flex flex-wrap gap-1">
+                <a href="{{ path('app_article_index', search is defined and search ? {q: search} : {}) }}"
+                   class="btn btn-sm {% if not current_category %}btn-primary{% else %}btn-outline-secondary{% endif %}"
+                   style="border-radius:20px; font-size:.8rem;">Tous</a>
+                {% for cat in categories %}
+                <a href="{{ path('app_article_index', {'category': cat.slug, 'q': search|default('')}) }}"
+                   class="btn btn-sm {% if current_category == cat.slug %}btn-primary{% else %}btn-outline-secondary{% endif %}"
+                   style="border-radius:20px; font-size:.8rem;">{{ cat.name }}</a>
+                {% endfor %}
+            </div>
+
+            {% if search or current_category %}
+            <a href="{{ path('app_article_index') }}" class="btn btn-sm btn-outline-danger" style="border-radius:20px; font-size:.8rem;">
+                <i class="bi bi-x-lg me-1"></i>Réinitialiser
+            </a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{# ── GRILLE ARTICLES ── #}
+<section class="py-5">
+    <div class="container">
+        {% if articles is not empty %}
+        <div class="row g-4">
+            {% for article in articles %}
+            <div class="col-md-6 col-lg-4">
+                <article style="background:#fff; border:1px solid #e7eaf3; border-radius:14px; overflow:hidden;
+                                box-shadow:0 2px 12px rgba(0,0,0,.05); height:100%; display:flex; flex-direction:column;
+                                transition:all .25s ease;">
+                    {# Image #}
+                    {% if article.featuredImage %}
+                    <a href="{{ path('app_article_show', {id: article.id}) }}"
+                       style="display:block; overflow:hidden; height:200px;">
+                        <img src="/uploads/articles/{{ article.featuredImage }}"
+                             alt="{{ article.title }}"
+                             style="width:100%; height:100%; object-fit:cover; transition:transform .4s ease;">
+                    </a>
+                    {% else %}
+                    <div style="height:200px; background:linear-gradient(135deg,#f2f5fb,#e8eef8);
+                                display:flex; align-items:center; justify-content:center; color:#c7d2e5; font-size:2.5rem;">
+                        <i class="bi bi-image"></i>
+                    </div>
+                    {% endif %}
+
+                    <div style="padding:1.5rem; flex:1; display:flex; flex-direction:column;">
+                        {# Meta #}
+                        <div style="display:flex; align-items:center; gap:.6rem; margin-bottom:.75rem; flex-wrap:wrap;">
+                            {% if article.category %}
+                            <a href="{{ path('app_article_index', {category: article.category.slug}) }}"
+                               style="font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+                                      padding:.25rem .65rem; background:#e8f1ff; color:#0f6efd; border-radius:20px; text-decoration:none;">
+                                {{ article.category.name }}
+                            </a>
+                            {% endif %}
+                            <span style="font-size:.78rem; color:#6c757d;">
+                                <i class="bi bi-calendar3 me-1"></i>{{ article.createdAt|date('d M Y') }}
+                            </span>
+                        </div>
+
+                        {# Titre #}
+                        <h2 style="font-size:1.15rem; font-weight:700; color:#0b254c; line-height:1.35; margin-bottom:.6rem; flex:1;">
+                            <a href="{{ path('app_article_show', {id: article.id}) }}"
+                               style="color:inherit; text-decoration:none;">{{ article.title }}</a>
+                        </h2>
+
+                        {# Extrait #}
+                        <p style="font-size:.875rem; color:#6c757d; line-height:1.65; margin-bottom:1.25rem;
+                                  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
+                            {{ article.metaDescription ?: article.content|striptags|slice(0,130) ~ '…' }}
+                        </p>
+
+                        {# Lire plus #}
+                        <a href="{{ path('app_article_show', {id: article.id}) }}"
+                           style="font-size:.85rem; font-weight:600; color:#0f6efd; text-decoration:none;
+                                  display:inline-flex; align-items:center; gap:.4rem;">
+                            Lire l'article <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+
         {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div style="text-align:center; padding:5rem 2rem; background:#f9fafb; border-radius:16px; border:1px dashed #d0d7e6;">
+            <i class="bi bi-search" style="font-size:3rem; color:#c7d2e5; display:block; margin-bottom:1rem;"></i>
+            <h3 style="color:#0b254c; font-weight:700; margin-bottom:.5rem;">Aucun article trouvé</h3>
+            <p style="color:#6c757d;">Essayez d'autres mots-clés ou supprimez les filtres actifs.</p>
+            <a href="{{ path('app_article_index') }}" class="btn btn-outline-primary mt-2">Voir tous les articles</a>
+        </div>
+        {% endif %}
 
-    <a href="{{ path('app_article_new') }}">Create new</a>
+        {# Bouton Écrire si rédacteur #}
+        {% if is_granted('ROLE_WRITER') %}
+        <div class="text-center mt-5">
+            <a href="{{ path('app_article_new') }}"
+               style="display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1.75rem;
+                      background:linear-gradient(135deg,#0f6efd,#0b5ed7); color:#fff; border-radius:10px;
+                      font-weight:600; text-decoration:none; font-size:.95rem;">
+                <i class="bi bi-plus-lg"></i>Écrire un article
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
 {% endblock %}

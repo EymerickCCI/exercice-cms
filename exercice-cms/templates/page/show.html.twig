@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page.title }} — MonCMS{% endblock %}
+{% block meta_description %}{{ page.metaDescription|default(page.content|striptags|slice(0,155)) }}{% endblock %}
+
+{% block body %}
+{# ── HERO DE PAGE ── #}
+<section style="background:linear-gradient(135deg,#0b254c 0%,#1a3a5c 100%); padding:3.5rem 0 2.5rem; color:#fff;">
+    <div class="container">
+        {# Breadcrumb #}
+        <nav aria-label="breadcrumb" style="margin-bottom:1rem;">
+            <ol class="breadcrumb mb-0" style="font-size:.8rem; opacity:.7;">
+                <li class="breadcrumb-item"><a href="{{ path('app_home') }}" style="color:rgba(255,255,255,.7);">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_page_index') }}" style="color:rgba(255,255,255,.7);">Pages</a></li>
+                {% if page.parent %}
+                <li class="breadcrumb-item">
+                    <a href="{{ path('app_page_show', {slug: page.parent.slug}) }}" style="color:rgba(255,255,255,.7);">
+                        {{ page.parent.title }}
+                    </a>
+                </li>
+                {% endif %}
+                <li class="breadcrumb-item active" style="color:rgba(255,255,255,.9);">{{ page.title }}</li>
+            </ol>
+        </nav>
+        <h1 style="font-family:'Poppins',sans-serif; font-weight:800; font-size:clamp(1.8rem,4vw,2.8rem); margin-bottom:.5rem;">
+            {{ page.title }}
+        </h1>
+        <p style="opacity:.65; font-size:.85rem; margin:0;">
+            Mis à jour le {{ page.updatedAt|date('d/m/Y') }}
+        </p>
+    </div>
+</section>
+
+{# ── CONTENU ── #}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div style="font-size:1.05rem; line-height:1.85; color:#2d3748;">
+                    {{ page.content|raw }}
+                </div>
+
+                {# Sous-pages #}
+                {% set children = page.pages %}
+                {% if children|length > 0 %}
+                <div style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e7eaf3;">
+                    <h3 style="font-size:1rem; font-weight:700; color:#0f6efd; text-transform:uppercase;
+                               letter-spacing:.08em; margin-bottom:1.25rem;">Pages liées</h3>
+                    <div class="d-flex flex-column gap-2">
+                        {% for child in children %}
+                        {% if child.isPublished %}
+                        <a href="{{ path('app_page_show', {slug: child.slug}) }}"
+                           style="display:flex; align-items:center; justify-content:space-between; padding:1rem 1.25rem;
+                                  border:1px solid #e7eaf3; border-radius:10px; color:#0b254c; text-decoration:none;
+                                  transition:all .2s ease; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.04);">
+                            <span style="font-weight:600;">{{ child.title }}</span>
+                            <i class="bi bi-arrow-right" style="color:#0f6efd;"></i>
+                        </a>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            {# Sidebar navigation dans la section #}
+            {% if page.parent and page.parent.pages|length > 1 %}
+            <aside class="col-lg-3 offset-lg-1 d-none d-lg-block">
+                <div style="position:sticky; top:90px; background:#f9fafb; border-radius:12px; padding:1.5rem; border:1px solid #e7eaf3;">
+                    <h4 style="font-size:.78rem; font-weight:700; color:#0f6efd; text-transform:uppercase;
+                               letter-spacing:.08em; margin-bottom:1rem;">Dans cette section</h4>
+                    <ul class="list-unstyled mb-0">
+                        {% for sibling in page.parent.pages %}
+                        {% if sibling.isPublished %}
+                        <li>
+                            <a href="{{ path('app_page_show', {slug: sibling.slug}) }}"
+                               style="display:block; padding:.5rem 0; font-size:.875rem;
+                                      color: {{ sibling.slug == page.slug ? '#0f6efd' : '#495057' }};
+                                      font-weight: {{ sibling.slug == page.slug ? '700' : '400' }};
+                                      border-bottom:1px solid #e7eaf3; text-decoration:none;">
+                                {% if sibling.slug == page.slug %}<i class="bi bi-dot me-1" style="color:#0f6efd;"></i>{% endif %}
+                                {{ sibling.title }}
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </aside>
+            {% endif %}
+        </div>
+
+        {# Actions (admin) #}
+        {% if is_granted('ROLE_WRITER') %}
+        <div class="mt-4 pt-4 d-flex gap-2" style="border-top:1px solid #e7eaf3;">
+            <a href="{{ path('admin') }}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-pencil me-1"></i>Modifier dans l'admin
+            </a>
+            <a href="{{ path('app_page_index') }}" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Toutes les pages
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

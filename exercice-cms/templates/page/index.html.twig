@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ page.title }} — {{ site_name|default('MonCMS') }}{% endblock %}
-{% block meta_description %}{{ page.metaDescription|default(page.content|striptags|slice(0,155)) }}{% endblock %}
+{% block title %}Pages — {{ site_name|default('MonCMS') }}{% endblock %}
+{% block meta_description %}Liste des pages publiées sur le site.{% endblock %}
 
 {% block page_styles %}
 .page-hero {
@@ -90,89 +90,30 @@
 {% endblock %}
 
 {% block body %}
-{# ══ HERO ══ #}
-<section class="page-hero">
-    <div class="container fade-in">
+<section class="py-5">
+    <div class="container">
+        <h1 class="mb-4">Toutes les pages</h1>
 
-        {# Breadcrumb #}
-        <div class="page-breadcrumb">
-            <a href="{{ path('app_home') }}">Accueil</a>
-
-            {% if page.parent %}
-            <i class="bi bi-chevron-right" style="font-size:0.65rem;"></i>
-            <a href="{{ path('app_page_show', {slug: page.parent.slug}) }}">{{ page.parent.title }}</a>
-            {% endif %}
-
-            <i class="bi bi-chevron-right" style="font-size:0.65rem;"></i>
-            <span>{{ page.title }}</span>
-        </div>
-
-        <h1 class="page-title">{{ page.title }}</h1>
-
-        <div style="font-size:0.8rem; color:var(--color-muted); margin-top:0.75rem;">
-            Mise à jour le {{ page.updatedAt|date('d M Y') }}
-        </div>
+        {% if pages is not empty %}
+            <div class="row g-4">
+                {% for page in pages %}
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card h-100">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="card-title">{{ page.title }}</h3>
+                                <p class="card-text text-muted mb-4">{{ page.content|striptags|slice(0, 110) }}…</p>
+                                <a href="{{ path('app_page_show', {slug: page.slug}) }}" class="mt-auto btn btn-outline-primary">Voir la page</a>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">Aucune page publiée pour le moment.</div>
+        {% endif %}
     </div>
 </section>
 
-{# ══ CONTENU ══ #}
-<section class="py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="page-body">
-                    {{ page.content|raw }}
-                </div>
-
-                {# Sous-pages (enfants) #}
-                {% if page.children is defined and page.children|length > 0 %}
-                <div class="mt-5 pt-4" style="border-top:1px solid var(--color-border);">
-                    <p class="section-label mb-3">Pages liées</p>
-                    <div class="d-flex flex-column gap-3">
-                        {% for child in page.children %}
-                        {% if child.isPublished %}
-                        <a href="{{ path('app_page_show', {slug: child.slug}) }}" class="child-page-link">
-                            <h3 class="child-page-title">{{ child.title }}</h3>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                {% endif %}
-
-            </div>
-
-            {# ── Sidebar navigation ── #}
-            {% if page.parent and page.parent.children|length > 1 %}
-            <aside class="col-lg-3 offset-lg-1">
-                <div style="position:sticky; top:80px;">
-                    <p class="section-label mb-3">Dans cette section</p>
-                    <ul class="list-unstyled mb-0">
-                        {% for sibling in page.parent.children %}
-                        {% if sibling.isPublished %}
-                        <li>
-                            <a href="{{ path('app_page_show', {slug: sibling.slug}) }}"
-                               class="d-block py-2 px-0"
-                               style="font-size:0.875rem;
-                                      color: {{ sibling.slug == page.slug ? 'var(--color-ink)' : 'var(--color-muted)' }};
-                                      font-weight: {{ sibling.slug == page.slug ? '600' : '400' }};
-                                      border-bottom: 1px solid var(--color-border);">
-                                {% if sibling.slug == page.slug %}
-                                <i class="bi bi-dot me-1"></i>
-                                {% endif %}
-                                {{ sibling.title }}
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </aside>
-            {% endif %}
-
-        </div>
-    </div>
 </section>
 
 {% endblock %}

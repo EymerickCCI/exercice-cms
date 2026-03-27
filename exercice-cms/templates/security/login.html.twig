@@ -1,34 +1,96 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion — MonCMS{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+<div style="min-height:calc(100vh - 130px); display:flex; align-items:center; justify-content:center;
+            background:linear-gradient(135deg,#f2f5fb 0%,#e8eef8 100%); padding:2rem 1rem;">
+    <div style="width:100%; max-width:440px;">
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
+        {# Logo #}
+        <div style="text-align:center; margin-bottom:2rem;">
+            <div style="display:inline-flex; align-items:center; justify-content:center;
+                        width:64px; height:64px; background:linear-gradient(135deg,#0f6efd,#0b5ed7);
+                        border-radius:18px; font-size:1.75rem; margin-bottom:1rem; box-shadow:0 8px 24px rgba(15,110,253,.3);">
+                📝
+            </div>
+            <h1 style="font-family:'Poppins',sans-serif; font-weight:800; font-size:1.5rem; color:#0b254c; margin-bottom:.25rem;">
+                Mon<span style="color:#0f6efd;">CMS</span>
+            </h1>
+            <p style="color:#6c757d; font-size:.9rem; margin:0;">Connectez-vous pour accéder à votre espace</p>
         </div>
-    {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-    <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+        {# Carte formulaire #}
+        <div style="background:#fff; border-radius:18px; padding:2.5rem; box-shadow:0 12px 40px rgba(0,0,0,.1); border:1px solid #e7eaf3;">
 
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
+            {% if error %}
+            <div class="alert alert-danger d-flex align-items-center gap-2" style="border-radius:10px; font-size:.875rem;">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+            {% endif %}
+
+            {% if app.user %}
+            <div class="alert alert-info" style="border-radius:10px; font-size:.875rem;">
+                Vous êtes connecté en tant que <strong>{{ app.user.userIdentifier }}</strong>.
+                <a href="{{ logout_path() }}">Déconnexion</a>
+            </div>
+            {% endif %}
+
+            <form method="post">
+                <div class="mb-3">
+                    <label for="inputEmail" style="font-weight:600; font-size:.875rem; color:#0b254c; margin-bottom:.4rem; display:block;">
+                        <i class="bi bi-envelope me-1"></i>Adresse email
+                    </label>
+                    <input type="email"
+                           value="{{ last_username }}"
+                           name="email"
+                           id="inputEmail"
+                           class="form-control"
+                           style="border-radius:10px; padding:.7rem 1rem; border:1.5px solid #e7eaf3; font-size:.95rem;"
+                           autocomplete="email"
+                           required
+                           autofocus
+                           placeholder="exemple@domaine.fr">
+                </div>
+
+                <div class="mb-4">
+                    <label for="inputPassword" style="font-weight:600; font-size:.875rem; color:#0b254c; margin-bottom:.4rem; display:block;">
+                        <i class="bi bi-lock me-1"></i>Mot de passe
+                    </label>
+                    <input type="password"
+                           name="password"
+                           id="inputPassword"
+                           class="form-control"
+                           style="border-radius:10px; padding:.7rem 1rem; border:1.5px solid #e7eaf3; font-size:.95rem;"
+                           autocomplete="current-password"
+                           required
+                           placeholder="••••••••">
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <label style="display:flex; align-items:center; gap:.5rem; font-size:.875rem; color:#495057; cursor:pointer;">
+                        <input type="checkbox" name="_remember_me" style="accent-color:#0f6efd; width:16px; height:16px;">
+                        Se souvenir de moi
+                    </label>
+                </div>
+
+                <button type="submit"
+                        style="width:100%; padding:.85rem; background:linear-gradient(135deg,#0f6efd,#0b5ed7);
+                               color:#fff; border:none; border-radius:10px; font-weight:700; font-size:1rem;
+                               cursor:pointer; transition:all .2s; box-shadow:0 4px 14px rgba(15,110,253,.35);">
+                    Se connecter <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+            </form>
+        </div>
+
+        <div style="text-align:center; margin-top:1.5rem;">
+            <a href="{{ path('app_home') }}" style="color:#6c757d; font-size:.875rem; text-decoration:none;">
+                <i class="bi bi-arrow-left me-1"></i>Retourner au site
+            </a>
+        </div>
     </div>
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+</div>
 {% endblock %}

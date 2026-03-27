@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 
@@ -21,9 +21,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('title')
             ->add('slug')
-            ->add('content', CKEditorType::class, [
-                'config_name' => 'default', // correspond à la config du YAML
-            ])
+            ->add('content', TextareaType::class)
             ->add('metaDescription')
             ->add('isPublished')
             ->add('category', EntityType::class, [
