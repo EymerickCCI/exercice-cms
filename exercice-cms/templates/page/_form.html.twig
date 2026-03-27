@@ -1,0 +1,30 @@
+{{ form_start(form, {'attr': {'class': 'cms-form'}}) }}
+<div class="cms-form-wrapper">
+    <div class="row gx-4 gy-3">
+        <div class="col-md-8">
+            {{ form_row(form.title, { attr: { class: 'form-control' } }) }}
+            {{ form_row(form.slug, { attr: { class: 'form-control' } }) }}
+            {{ form_row(form.content, { attr: { class: 'form-control', rows: '10' } }) }}
+            {{ form_row(form.metaDescription, { attr: { class: 'form-control' } }) }}
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3 mb-3">
+                <h5>Publication</h5>
+                {{ form_row(form.isPublished, { attr: { class: 'form-check-input' } }) }}
+            </div>
+
+            <div class="card p-3 mb-3">
+                <h5>Hiérarchie</h5>
+                {{ form_row(form.parent, { attr: { class: 'form-select' } }) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-actions">
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+    <a href="{{ path('app_page_index') }}" class="btn btn-outline-secondary">Annuler</a>
+</div>
+
+{{ form_end(form) }}

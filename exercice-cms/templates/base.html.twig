@@ -8,31 +8,24 @@
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>📝</text></svg>">
 
-    {# Fonts #}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
 
-    {# Bootstrap Icons #}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
-    {# Styles inline spécifiques à la page #}
     <style>{% block page_styles %}{% endblock %}</style>
 </head>
 
 <body>
 
-{# ══════════════════════════════════════════
-   NAVBAR
-══════════════════════════════════════════ #}
 <header class="site-header">
     <nav class="navbar navbar-expand-lg" style="background:#0b254c; padding:.75rem 0;">
         <div class="container">
 
-            {# Logo/Marque #}
             <a class="navbar-brand d-flex align-items-center gap-2" href="{{ path('app_home') }}"
                style="font-family:'Poppins',sans-serif; font-weight:800; font-size:1.35rem; color:#fff; text-decoration:none;">
                 <span style="display:inline-flex; align-items:center; justify-content:center;
@@ -41,7 +34,6 @@
                 Mon<span style="color:#4fa3ff;">CMS</span>
             </a>
 
-            {# Burger #}
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
                     data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false"
                     style="color:rgba(255,255,255,.8);">
@@ -49,7 +41,6 @@
             </button>
 
             <div class="collapse navbar-collapse" id="mainNav">
-                {# Liens principaux #}
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
                     <li class="nav-item">
                         <a class="nav-link px-3 py-2 rounded-2 {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}"
@@ -81,7 +72,6 @@
                     </li>
                 </ul>
 
-                {# Zone droite : user / admin #}
                 <div class="d-flex align-items-center gap-2">
                     {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('app_article_index') }}"
@@ -135,9 +125,6 @@
     </nav>
 </header>
 
-{# ══════════════════════════════════════════
-   FLASH MESSAGES
-══════════════════════════════════════════ #}
 {% for type, messages in app.flashes %}
     {% for message in messages %}
     <div class="alert alert-{{ type == 'error' ? 'danger' : type }} alert-dismissible fade show m-0 rounded-0"
@@ -153,16 +140,11 @@
     {% endfor %}
 {% endfor %}
 
-{# ══════════════════════════════════════════
-   CONTENU PRINCIPAL
-══════════════════════════════════════════ #}
+
 <main class="site-main">
     {% block body %}{% endblock %}
 </main>
 
-{# ══════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════ #}
 <footer style="background:#0e1938; color:#a8b8d8; padding:3rem 0 1.5rem;">
     <div class="container">
         <div class="row g-4 mb-4">
@@ -208,6 +190,12 @@
 
         <script>
             CKEDITOR.replace('article_content', {
+                height: 300,
+                uiColor: '#ffffff',
+                toolbar: 'Full'
+            });
+            
+            CKEDITOR.replace('page_content', {
                 height: 300,
                 uiColor: '#ffffff',
                 toolbar: 'Full'

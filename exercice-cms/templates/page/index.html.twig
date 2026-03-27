@@ -92,7 +92,14 @@
 {% block body %}
 <section class="py-5">
     <div class="container">
-        <h1 class="mb-4">Toutes les pages</h1>
+        <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+            <h1 class="mb-0">Toutes les pages</h1>
+            {% if is_granted('ROLE_WRITER') %}
+            <a href="{{ path('app_page_new') }}" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Créer une page
+            </a>
+            {% endif %}
+        </div>
 
         {% if pages is not empty %}
             <div class="row g-4">
@@ -103,6 +110,11 @@
                                 <h3 class="card-title">{{ page.title }}</h3>
                                 <p class="card-text text-muted mb-4">{{ page.content|striptags|slice(0, 110) }}…</p>
                                 <a href="{{ path('app_page_show', {slug: page.slug}) }}" class="mt-auto btn btn-outline-primary">Voir la page</a>
+                                {% if is_granted('ROLE_WRITER') %}
+                                <a href="{{ path('app_page_edit', {id: page.id}) }}" class="btn btn-sm btn-outline-secondary mt-2">
+                                    <i class="bi bi-pencil"></i> Éditer
+                                </a>
+                                {% endif %}
                             </div>
                         </article>
                     </div>
@@ -112,8 +124,6 @@
             <div class="alert alert-info">Aucune page publiée pour le moment.</div>
         {% endif %}
     </div>
-</section>
-
 </section>
 
 {% endblock %}

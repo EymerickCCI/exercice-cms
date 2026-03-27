@@ -4,10 +4,8 @@
 {% block meta_description %}{{ page.metaDescription|default(page.content|striptags|slice(0,155)) }}{% endblock %}
 
 {% block body %}
-{# ── HERO DE PAGE ── #}
 <section style="background:linear-gradient(135deg,#0b254c 0%,#1a3a5c 100%); padding:3.5rem 0 2.5rem; color:#fff;">
     <div class="container">
-        {# Breadcrumb #}
         <nav aria-label="breadcrumb" style="margin-bottom:1rem;">
             <ol class="breadcrumb mb-0" style="font-size:.8rem; opacity:.7;">
                 <li class="breadcrumb-item"><a href="{{ path('app_home') }}" style="color:rgba(255,255,255,.7);">Accueil</a></li>
@@ -31,7 +29,6 @@
     </div>
 </section>
 
-{# ── CONTENU ── #}
 <section class="py-5">
     <div class="container">
         <div class="row">
@@ -40,7 +37,6 @@
                     {{ page.content|raw }}
                 </div>
 
-                {# Sous-pages #}
                 {% set children = page.pages %}
                 {% if children|length > 0 %}
                 <div style="margin-top:3rem; padding-top:2rem; border-top:1px solid #e7eaf3;">
@@ -63,7 +59,6 @@
                 {% endif %}
             </div>
 
-            {# Sidebar navigation dans la section #}
             {% if page.parent and page.parent.pages|length > 1 %}
             <aside class="col-lg-3 offset-lg-1 d-none d-lg-block">
                 <div style="position:sticky; top:90px; background:#f9fafb; border-radius:12px; padding:1.5rem; border:1px solid #e7eaf3;">
@@ -90,11 +85,10 @@
             {% endif %}
         </div>
 
-        {# Actions (admin) #}
         {% if is_granted('ROLE_WRITER') %}
         <div class="mt-4 pt-4 d-flex gap-2" style="border-top:1px solid #e7eaf3;">
-            <a href="{{ path('admin') }}" class="btn btn-sm btn-outline-primary">
-                <i class="bi bi-pencil me-1"></i>Modifier dans l'admin
+            <a href="{{ path('app_page_edit', {id: page.id}) }}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-pencil me-1"></i>Modifier
             </a>
             <a href="{{ path('app_page_index') }}" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-arrow-left me-1"></i>Toutes les pages

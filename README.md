@@ -1,5 +1,5 @@
 ########## INFORMATIONS ##########
-User : 
+User : test
 mdp : 123456
 
 ########## INSTALLATION ##########

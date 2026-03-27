@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une page — {{ site_name|default('MonCMS') }}{% endblock %}
+
+{% block page_styles %}
+.cms-form-wrapper {
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: 0 10px 32px rgba(20, 32, 50, 0.09);
+    margin-bottom: 1.5rem;
+}
+
+.cms-form-wrapper .form-control,
+.cms-form-wrapper .form-select,
+.cms-form-wrapper .form-check-input {
+    font-size: 0.95rem;
+    padding: 0.58rem 0.75rem;
+    border-radius: 0.65rem;
+}
+
+.cms-form-wrapper .form-select {
+    min-height: 2.65rem;
+}
+
+.cms-form-wrapper label {
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    color: #102147;
+}
+
+.cms-form-wrapper .card {
+    border: 1px solid var(--color-border);
+    box-shadow: 0 5px 16px rgba(20, 32, 50, 0.06);
+}
+
+.cms-form-wrapper .card h5 {
+    font-size: 0.9rem;
+    color: #0f6efd;
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+}
+
+.form-actions {
+    margin-top: 1.6rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.form-actions .btn {
+    padding: 0.75rem 1.35rem;
+    border-radius: 0.65rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.form-actions .btn-primary {
+    background: linear-gradient(135deg, #0f6efd, #0b5ed7);
+    border: none;
+}
+
+.form-actions .btn-primary:hover,
+.form-actions .btn-primary:focus {
+    background: linear-gradient(135deg, #0b5ed7, #094db2);
+}
+
+.form-actions .btn-outline-secondary {
+    border-color: #0f6efd;
+    color: #0f6efd;
+}
+
+.form-actions .btn-outline-secondary:hover {
+    background: #0f6efd;
+    color: #fff;
+}
+{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <h1 class="mb-4">Créer une nouvelle page</h1>
+
+    {{ include('page/_form.html.twig') }}
+</div>
+{% endblock %}
