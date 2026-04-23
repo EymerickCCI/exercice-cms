@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 23 avr. 2026 à 18:57
+-- Généré le : jeu. 23 avr. 2026 à 20:36
 -- Version du serveur : 9.6.0
 -- Version de PHP : 8.5.4
 
@@ -43,7 +43,14 @@ CREATE TABLE IF NOT EXISTS `article` (
   PRIMARY KEY (`id`),
   KEY `IDX_23A0E66F675F31B` (`author_id`),
   KEY `IDX_23A0E6612469DE2` (`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `article`
+--
+
+INSERT INTO `article` (`id`, `title`, `slug`, `content`, `meta_description`, `created_at`, `updated_at`, `is_published`, `featured_image`, `author_id`, `category_id`) VALUES
+(1, 'Premier article', 'premier-article', '<p><s>Test </s>du <strong>premier </strong>article</p>', 'premier article du site', '2026-04-23 20:18:37', '2026-04-23 20:18:37', 1, '505ba29503dec94a2190959d7a4c5e3538fdfb2f.png', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -60,6 +67,13 @@ CREATE TABLE IF NOT EXISTS `article_tag` (
   KEY `IDX_919694F9BAD26311` (`tag_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `article_tag`
+--
+
+INSERT INTO `article_tag` (`article_id`, `tag_id`) VALUES
+(1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -72,7 +86,14 @@ CREATE TABLE IF NOT EXISTS `category` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `category`
+--
+
+INSERT INTO `category` (`id`, `name`, `slug`) VALUES
+(1, 'Catégorie parente', 'categorie-parente');
 
 -- --------------------------------------------------------
 
@@ -93,7 +114,14 @@ CREATE TABLE IF NOT EXISTS `commentary` (
   PRIMARY KEY (`id`),
   KEY `IDX_1CAC12CA7294869C` (`article_id`),
   KEY `IDX_1CAC12CAA76ED395` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `commentary`
+--
+
+INSERT INTO `commentary` (`id`, `content`, `created_at`, `is_approuved`, `name_author`, `email_author`, `article_id`, `user_id`) VALUES
+(1, 'Excellent article', '2026-04-23 20:19:03', 1, 'test', 'testcommentaire@gmail.com', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -134,7 +162,14 @@ CREATE TABLE IF NOT EXISTS `gallery` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `gallery`
+--
+
+INSERT INTO `gallery` (`id`, `title`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'Première galerie', 'Une première galerie', '2026-04-23 20:21:05', '2026-04-23 20:21:05');
 
 -- --------------------------------------------------------
 
@@ -151,7 +186,14 @@ CREATE TABLE IF NOT EXISTS `image` (
   `gallery_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_C53D045F4E7AF8F` (`gallery_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `image`
+--
+
+INSERT INTO `image` (`id`, `filename`, `caption`, `created_at`, `gallery_id`) VALUES
+(1, 'dd0179b6a408544207d9b06644262110f57340bf.png', 'Photo de profil', '2026-04-23 20:21:27', 1);
 
 -- --------------------------------------------------------
 
@@ -172,7 +214,14 @@ CREATE TABLE IF NOT EXISTS `page` (
   `parent_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_140AB620727ACA70` (`parent_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `page`
+--
+
+INSERT INTO `page` (`id`, `title`, `slug`, `content`, `meta_description`, `created_at`, `updated_at`, `is_published`, `parent_id`) VALUES
+(1, 'Première page', 'premiere-page', '<p><s>TEST </s><strong>PAGE </strong>UNE</p>', 'première page du site', '2026-04-23 20:15:20', '2026-04-23 20:15:20', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -185,7 +234,14 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `tag`
+--
+
+INSERT INTO `tag` (`id`, `name`) VALUES
+(1, '2026');
 
 -- --------------------------------------------------------
 
@@ -205,12 +261,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `firstname` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_EMAIL` (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-COMMIT;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `user`
+--
 
 INSERT INTO `user` (`id`, `email`, `roles`, `password`, `created_at`, `updated_at`, `lastname`, `firstname`) VALUES
-(1, 'testabc@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$9E598ITYY2Z79jNq34F7iO0w4LwR1KBRC7U/o4KesDBWvq42l84kW', '2026-04-23 19:03:15', '2026-04-23 19:03:15', 'ABC', 'Test');
+(1, 'testabc@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$9E598ITYY2Z79jNq34F7iO0w4LwR1KBRC7U/o4KesDBWvq42l84kW', '2026-04-23 19:03:15', '2026-04-23 19:03:15', 'ABC', 'TestUser');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
