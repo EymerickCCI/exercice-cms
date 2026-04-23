@@ -10,7 +10,9 @@ Encore
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path
-    .setPublicPath('/16-Symfony/1-exercice/exercice-cms/exercice-cms/public/build')
+    .setPublicPath('/build')
+    // LOCAL CCI -> .setPublicPath('/16-Symfony/1-exercice/exercice-cms/exercice-cms/public/build')
+    // LOCAL HOME -> .setPublicPath('/symfony/exercice-cms/exercice-cms/public/build')
     // only needed for CDN's or subdirectory deploy
     .setManifestKeyPrefix('build/')
 
