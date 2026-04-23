@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte — MonCMS{% endblock %}
+
+{% block body %}
+<div style="min-height:calc(100vh - 130px); display:flex; align-items:center; justify-content:center;
+            background:linear-gradient(135deg,#f2f5fb 0%,#e8eef8 100%); padding:2rem 1rem;">
+    <div style="width:100%; max-width:480px;">
+
+        {# Logo #}
+        <div style="text-align:center; margin-bottom:2rem;">
+            <div style="display:inline-flex; align-items:center; justify-content:center;
+                        width:64px; height:64px; background:linear-gradient(135deg,#0f6efd,#0b5ed7);
+                        border-radius:18px; font-size:1.75rem; margin-bottom:1rem; box-shadow:0 8px 24px rgba(15,110,253,.3);">
+                📝
+            </div>
+            <h1 style="font-family:'Poppins',sans-serif; font-weight:800; font-size:1.5rem; color:#0b254c; margin-bottom:.25rem;">
+                Créer un compte
+            </h1>
+            <p style="color:#6c757d; font-size:.9rem; margin:0;">Rejoignez Mon<span style="color:#0f6efd;">CMS</span></p>
+        </div>
+
+        <div style="background:#fff; border-radius:18px; padding:2.5rem; box-shadow:0 12px 40px rgba(0,0,0,.1); border:1px solid #e7eaf3;">
+
+            {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+
+            {# Prénom + Nom #}
+            <div class="row g-3 mb-3">
+                <div class="col-6">
+                    {{ form_label(form.firstname, null, {label_attr: {style: 'font-weight:600; font-size:.875rem; color:#0b254c; margin-bottom:.4rem; display:block;'}}) }}
+                    {{ form_widget(form.firstname, {attr: {class: 'form-control', style: 'border-radius:10px; border:1.5px solid #e7eaf3;', placeholder: 'Jean'}}) }}
+                    {{ form_errors(form.firstname) }}
+                </div>
+                <div class="col-6">
+                    {{ form_label(form.lastname, null, {label_attr: {style: 'font-weight:600; font-size:.875rem; color:#0b254c; margin-bottom:.4rem; display:block;'}}) }}
+                    {{ form_widget(form.lastname, {attr: {class: 'form-control', style: 'border-radius:10px; border:1.5px solid #e7eaf3;', placeholder: 'Dupont'}}) }}
+                    {{ form_errors(form.lastname) }}
+                </div>
+            </div>
+
+            {# Email #}
+            <div class="mb-3">
+                {{ form_label(form.email, null, {label_attr: {style: 'font-weight:600; font-size:.875rem; color:#0b254c; margin-bottom:.4rem; display:block;'}}) }}
+                {{ form_widget(form.email, {attr: {class: 'form-control', style: 'border-radius:10px; border:1.5px solid #e7eaf3;', placeholder: 'exemple@domaine.fr'}}) }}
+                {{ form_errors(form.email) }}
+            </div>
+
+            {# Mot de passe #}
+            <div class="mb-3">
+                {{ form_label(form.plainPassword.first, null, {label_attr: {style: 'font-weight:600; font-size:.875rem; color:#0b254c; margin-bottom:.4rem; display:block;'}}) }}
+                {{ form_widget(form.plainPassword.first, {attr: {class: 'form-control', style: 'border-radius:10px; border:1.5px solid #e7eaf3;', placeholder: '••••••••'}}) }}
+                {{ form_errors(form.plainPassword.first) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.plainPassword.second, null, {label_attr: {style: 'font-weight:600; font-size:.875rem; color:#0b254c; margin-bottom:.4rem; display:block;'}}) }}
+                {{ form_widget(form.plainPassword.second, {attr: {class: 'form-control', style: 'border-radius:10px; border:1.5px solid #e7eaf3;', placeholder: '••••••••'}}) }}
+                {{ form_errors(form.plainPassword.second) }}
+            </div>
+
+            <button type="submit"
+                    style="width:100%; padding:.85rem; background:linear-gradient(135deg,#0f6efd,#0b5ed7);
+                           color:#fff; border:none; border-radius:10px; font-weight:700; font-size:1rem;
+                           cursor:pointer; box-shadow:0 4px 14px rgba(15,110,253,.35);">
+                Créer mon compte <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+
+            {{ form_end(form) }}
+
+            <div style="text-align:center; margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid #e7eaf3;">
+                <span style="font-size:.875rem; color:#6c757d;">Déjà un compte ?</span>
+                <a href="{{ path('app_login') }}" style="font-size:.875rem; font-weight:600; color:#0f6efd; margin-left:.4rem;">
+                    Se connecter
+                </a>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:1.5rem;">
+            <a href="{{ path('app_home') }}" style="color:#6c757d; font-size:.875rem; text-decoration:none;">
+                <i class="bi bi-arrow-left me-1"></i>Retourner au site
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

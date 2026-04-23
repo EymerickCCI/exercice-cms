@@ -3,7 +3,9 @@
 namespace App\Controller;
  
 use App\Entity\Article;
+use App\Entity\Commentary;
 use App\Form\ArticleType;
+use App\Form\CommentFormType;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +29,6 @@ final class ArticleController extends AbstractController
         $tagId        = $request->query->get('tag');
         $search       = $request->query->get('q');
  
-        // On ne montre que les articles publiés aux visiteurs
         $qb = $articleRepository->createQueryBuilder('a')
             ->join('a.category', 'c')
             ->addSelect('c')
@@ -38,13 +39,9 @@ final class ArticleController extends AbstractController
         if ($categorySlug) {
             $qb->andWhere('c.slug = :cat')->setParameter('cat', $categorySlug);
         }
- 
         if ($tagId) {
-            $qb->join('a.tags', 't')
-               ->andWhere('t.id = :tagId')
-               ->setParameter('tagId', $tagId);
+            $qb->join('a.tags', 't')->andWhere('t.id = :tagId')->setParameter('tagId', $tagId);
         }
- 
         if ($search) {
             $qb->andWhere('a.title LIKE :q OR a.content LIKE :q OR a.metaDescription LIKE :q')
                ->setParameter('q', '%' . $search . '%');
@@ -54,10 +51,10 @@ final class ArticleController extends AbstractController
         $categories = $categoryRepository->findAll();
  
         return $this->render('article/index.html.twig', [
-            'articles'        => $articles,
-            'categories'      => $categories,
+            'articles'         => $articles,
+            'categories'       => $categories,
             'current_category' => $categorySlug,
-            'search'          => $search,
+            'search'           => $search,
         ]);
     }
  
@@ -76,11 +73,9 @@ final class ArticleController extends AbstractController
                 $file->move($this->articlesDirectory, $filename);
                 $article->setFeaturedImage($filename);
             }
- 
             $article->setAuthor($this->getUser());
             $article->setCreatedAt(new \DateTimeImmutable());
             $article->setUpdatedAt(new \DateTimeImmutable());
- 
             $entityManager->persist($article);
             $entityManager->flush();
  
@@ -94,16 +89,43 @@ final class ArticleController extends AbstractController
         ]);
     }
  
-    #[Route('/{id}', name: 'app_article_show', methods: ['GET'], requirements: ['id' => '\d+'])]
-    public function show(Article $article): Response
+    #[Route('/{id}', name: 'app_article_show', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
+    public function show(Article $article, Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Accès refusé si brouillon et non admin/rédacteur
         if (!$article->isPublished() && !$this->isGranted('ROLE_WRITER')) {
             throw $this->createNotFoundException('Article non disponible.');
         }
+
+        // Formulaire commentaire
+        $comment = new Commentary();
+        $commentForm = $this->createForm(CommentFormType::class, $comment);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment->setArticle($article);
+            $comment->setCreatedAt(new \DateTimeImmutable());
+            $comment->setIsApprouved(false); // modération obligatoire
+
+            // Si connecté, on lie l'utilisateur
+            if ($this->getUser()) {
+                $comment->setUser($this->getUser());
+                // Pré-remplir le nom si vide
+                if (!$comment->getNameAuthor()) {
+                    $user = $this->getUser();
+                    $comment->setNameAuthor($user->getFirstname() ?? $user->getUserIdentifier());
+                }
+            }
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre commentaire a été soumis et est en attente de modération.');
+            return $this->redirectToRoute('app_article_show', ['id' => $article->getId()]);
+        }
  
         return $this->render('article/show.html.twig', [
-            'article' => $article,
+            'article'      => $article,
+            'comment_form' => $commentForm,
         ]);
     }
  
@@ -121,7 +143,6 @@ final class ArticleController extends AbstractController
                 $file->move($this->articlesDirectory, $filename);
                 $article->setFeaturedImage($filename);
             }
- 
             $article->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
  
@@ -144,7 +165,6 @@ final class ArticleController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Article supprimé.');
         }
- 
         return $this->redirectToRoute('app_article_index');
     }
 }

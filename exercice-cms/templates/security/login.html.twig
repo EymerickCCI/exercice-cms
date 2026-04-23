@@ -20,7 +20,6 @@
             <p style="color:#6c757d; font-size:.9rem; margin:0;">Connectez-vous pour accéder à votre espace</p>
         </div>
 
-        {# Carte formulaire #}
         <div style="background:#fff; border-radius:18px; padding:2.5rem; box-shadow:0 12px 40px rgba(0,0,0,.1); border:1px solid #e7eaf3;">
 
             {% if error %}
@@ -30,42 +29,25 @@
             </div>
             {% endif %}
 
-            {% if app.user %}
-            <div class="alert alert-info" style="border-radius:10px; font-size:.875rem;">
-                Vous êtes connecté en tant que <strong>{{ app.user.userIdentifier }}</strong>.
-                <a href="{{ logout_path() }}">Déconnexion</a>
-            </div>
-            {% endif %}
-
             <form method="post">
                 <div class="mb-3">
                     <label for="inputEmail" style="font-weight:600; font-size:.875rem; color:#0b254c; margin-bottom:.4rem; display:block;">
                         <i class="bi bi-envelope me-1"></i>Adresse email
                     </label>
-                    <input type="email"
-                           value="{{ last_username }}"
-                           name="email"
-                           id="inputEmail"
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
                            class="form-control"
                            style="border-radius:10px; padding:.7rem 1rem; border:1.5px solid #e7eaf3; font-size:.95rem;"
-                           autocomplete="email"
-                           required
-                           autofocus
-                           placeholder="exemple@domaine.fr">
+                           autocomplete="email" required autofocus placeholder="exemple@domaine.fr">
                 </div>
 
                 <div class="mb-4">
                     <label for="inputPassword" style="font-weight:600; font-size:.875rem; color:#0b254c; margin-bottom:.4rem; display:block;">
                         <i class="bi bi-lock me-1"></i>Mot de passe
                     </label>
-                    <input type="password"
-                           name="password"
-                           id="inputPassword"
+                    <input type="password" name="password" id="inputPassword"
                            class="form-control"
                            style="border-radius:10px; padding:.7rem 1rem; border:1.5px solid #e7eaf3; font-size:.95rem;"
-                           autocomplete="current-password"
-                           required
-                           placeholder="••••••••">
+                           autocomplete="current-password" required placeholder="••••••••">
                 </div>
 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -80,10 +62,17 @@
                 <button type="submit"
                         style="width:100%; padding:.85rem; background:linear-gradient(135deg,#0f6efd,#0b5ed7);
                                color:#fff; border:none; border-radius:10px; font-weight:700; font-size:1rem;
-                               cursor:pointer; transition:all .2s; box-shadow:0 4px 14px rgba(15,110,253,.35);">
+                               cursor:pointer; box-shadow:0 4px 14px rgba(15,110,253,.35);">
                     Se connecter <i class="bi bi-arrow-right ms-1"></i>
                 </button>
             </form>
+
+            <div style="text-align:center; margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid #e7eaf3;">
+                <span style="font-size:.875rem; color:#6c757d;">Pas encore de compte ?</span>
+                <a href="{{ path('app_register') }}" style="font-size:.875rem; font-weight:600; color:#0f6efd; margin-left:.4rem;">
+                    Créer un compte
+                </a>
+            </div>
         </div>
 
         <div style="text-align:center; margin-top:1.5rem;">

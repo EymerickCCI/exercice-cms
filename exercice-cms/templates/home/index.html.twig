@@ -358,13 +358,12 @@
 
 {% block body %}
 
-{# ══ HERO ══ #}
 <section class="hero">
     <div class="container fade-in">
         <p class="hero-eyebrow">Bienvenue</p>
         <h1 class="hero-title">Des contenus.<br><em>Une présence.</em></h1>
         <p class="hero-subtitle">
-            Retrouvez nos articles, pages et galeries photo au même endroit —<br>
+            Retrouvez nos articles, pages et galeries photo au même endroit <br>
             organisé, rapide, facile à parcourir.
         </p>
         <div class="d-flex flex-wrap gap-3">
@@ -377,7 +376,6 @@
     </div>
 </section>
 
-{# ══ STATS BAR ══ #}
 {% if stats is defined %}
 <div class="stats-bar">
     <div class="container">
@@ -403,7 +401,6 @@
 </div>
 {% endif %}
 
-{# ══ DERNIERS ARTICLES ══ #}
 <section class="py-5">
     <div class="container">
         <div class="section-header d-flex align-items-end justify-content-between flex-wrap gap-2">
@@ -469,7 +466,6 @@
     </div>
 </section>
 
-{# ══ GALERIES ══ #}
 {% if latest_galleries is not empty %}
 <section class="py-5" style="border-top: 1px solid var(--color-border);">
     <div class="container">
