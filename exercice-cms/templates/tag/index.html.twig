@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Tag index</h1>
 
-    <table class="table">
+    <table class="table tag-table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_tag_new') }}">Create new</a>
+    <a href="{{ path('app_tag_new') }}" class="btn-create">Créer un nouveau tag</a>
 {% endblock %}

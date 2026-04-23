@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Gallery index</h1>
 
-    <table class="table">
+    <table class="table gallery-table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -37,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_gallery_new') }}">Create new</a>
+    <a href="{{ path('app_gallery_new') }}" class="btn-create">Créer une nouvelle galerie</a>
 {% endblock %}

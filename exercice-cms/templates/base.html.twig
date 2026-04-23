@@ -58,13 +58,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-2 rounded-2 {% if 'app_gallery' in app.request.attributes.get('_route')|default('') %}active{% endif %}"
-                           href="{{ path('app_gallery_index') }}"
-                           style="color:rgba(255,255,255,.88); font-weight:500; font-size:.9rem;">
-                           <i class="bi bi-images me-1"></i>Galeries
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link px-3 py-2 rounded-2"
                            href="{{ path('app_page_index') }}"
                            style="color:rgba(255,255,255,.88); font-weight:500; font-size:.9rem;">
