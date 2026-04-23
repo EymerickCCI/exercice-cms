@@ -84,10 +84,13 @@ class UserCrudController extends AbstractCrudController
             ]);
 
         yield TextField::new('password', 'Mot de passe')
-            ->setFormType(PasswordType::class)
-            ->setRequired($pageName === Crud::PAGE_NEW)
-            ->onlyOnForms()
-            ->setHelp('Laissez vide pour ne pas modifier le mot de passe');
+        ->setFormType(PasswordType::class)
+        ->setRequired($pageName === Crud::PAGE_NEW)
+        ->onlyOnForms()
+        ->setFormTypeOptions([
+            'empty_data' => '',
+        ])
+        ->setHelp('Laissez vide pour ne pas modifier le mot de passe');
 
         yield DateTimeField::new('createdAt', 'Créé le')->hideOnForm();
         yield DateTimeField::new('updatedAt', 'Modifié le')->hideOnForm();
@@ -101,14 +104,29 @@ class UserCrudController extends AbstractCrudController
 
     public function updateEntity(EntityManagerInterface $entityManager, mixed $entityInstance): void
     {
-        $this->hashPassword($entityInstance);
+        if ($entityInstance instanceof User) {
+            $plainPassword = $entityInstance->getPassword();
+
+            // Si le champ password est vide, on restaure l'ancien hash
+            if (empty($plainPassword)) {
+                $originalData = $entityManager->getUnitOfWork()->getOriginalEntityData($entityInstance);
+                $entityInstance->setPassword($originalData['password']);
+            } else {
+                // Sinon on hash le nouveau mot de passe
+                if (!str_starts_with($plainPassword, '$2y$') && !str_starts_with($plainPassword, '$argon')) {
+                    $hashed = $this->passwordHasher->hashPassword($entityInstance, $plainPassword);
+                    $entityInstance->setPassword($hashed);
+                }
+            }
+        }
+
         parent::updateEntity($entityManager, $entityInstance);
     }
 
     private function hashPassword(User $user): void
     {
         $plainPassword = $user->getPassword();
-        if ($plainPassword && !str_starts_with($plainPassword, '$2y$') && !str_starts_with($plainPassword, '$argon')) {
+        if ($plainPassword) {
             $hashed = $this->passwordHasher->hashPassword($user, $plainPassword);
             $user->setPassword($hashed);
         }

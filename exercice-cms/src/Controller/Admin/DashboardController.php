@@ -48,22 +48,23 @@ class DashboardController extends AbstractDashboardController
         return parent::configureAssets()
             ->addJsFile('https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js')
             ->addHtmlContentToBody(<<<'HTML'
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    ['article_content', 'page_content'].forEach(function (id) {
-        var element = document.getElementById(id);
+                <script>
+                function initCKEditors() {
+                    ['Article_content', 'Page_content'].forEach(function (id) {
+                        var element = document.getElementById(id);
+                        if (element && typeof CKEDITOR !== 'undefined' && !CKEDITOR.instances[id]) {
+                            CKEDITOR.replace(id, {
+                                height: 300,
+                                uiColor: '#ffffff',
+                                toolbar: 'Full'
+                            });
+                        }
+                    });
+                }
 
-        if (element && typeof CKEDITOR !== 'undefined' && !CKEDITOR.instances[id]) {
-            CKEDITOR.replace(id, {
-                height: 300,
-                uiColor: '#ffffff',
-                toolbar: 'Full'
-            });
-        }
-    });
-});
-</script>
-HTML);
+                document.addEventListener('DOMContentLoaded', initCKEditors);
+                </script>
+                HTML);
     }
 
     public function configureMenuItems(): iterable
