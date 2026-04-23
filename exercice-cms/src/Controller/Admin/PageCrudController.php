@@ -3,9 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Page;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -18,7 +20,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
-use Doctrine\ORM\EntityManagerInterface;
 
 #[AdminCrud(routePath: '/page', routeName: 'page')]
 class PageCrudController extends AbstractCrudController
@@ -65,9 +66,10 @@ class PageCrudController extends AbstractCrudController
             ->setTargetFieldName('title')
             ->hideOnIndex();
 
-        yield TextareaField::new('content', 'Contenu')
-            ->hideOnIndex()
-            ->setNumOfRows(15);
+        yield TextareaField::new('content')
+            ->setFormTypeOption('attr', [
+                'class' => 'js-ckeditor'
+            ]);
 
         yield TextField::new('metaDescription', 'Méta-description')
             ->hideOnIndex()
