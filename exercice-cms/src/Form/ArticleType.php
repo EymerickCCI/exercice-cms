@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 
 class ArticleType extends AbstractType
@@ -27,6 +28,12 @@ class ArticleType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
+                'placeholder' => 'Choisir une categorie',
+                'required' => true,
+                'invalid_message' => 'La categorie selectionnee est invalide.',
+                'constraints' => [
+                    new NotNull(message: 'Veuillez selectionner une categorie.'),
+                ],
             ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,

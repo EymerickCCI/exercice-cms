@@ -71,8 +71,7 @@ class ArticleCrudController extends AbstractCrudController
 
         yield TextareaField::new('content', 'Contenu')
             ->hideOnIndex()
-            ->setNumOfRows(15)
-            ->setHelp('Vous pouvez utiliser du HTML');
+            ->setNumOfRows(15);
 
         yield TextField::new('metaDescription', 'Méta-description')
             ->hideOnIndex()

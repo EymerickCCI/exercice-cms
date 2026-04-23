@@ -23,21 +23,21 @@ class RegistrationFormType extends AbstractType
                 'label'       => 'Prénom',
                 'required'    => false,
                 'constraints' => [
-                    new Length(['max' => 100]),
+                    new Length(max: 100),
                 ],
             ])
             ->add('lastname', TextType::class, [
                 'label'       => 'Nom',
                 'required'    => false,
                 'constraints' => [
-                    new Length(['max' => 100]),
+                    new Length(max: 100),
                 ],
             ])
             ->add('email', EmailType::class, [
                 'label'       => 'Adresse email',
                 'constraints' => [
-                    new NotBlank(['message' => 'L\'email est obligatoire.']),
-                    new Email(['message' => 'Adresse email invalide.']),
+                    new NotBlank(message: 'L\'email est obligatoire.'),
+                    new Email(message: 'Adresse email invalide.'),
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
@@ -47,12 +47,12 @@ class RegistrationFormType extends AbstractType
                 'second_options'  => ['label' => 'Confirmer le mot de passe'],
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
                 'constraints'     => [
-                    new NotBlank(['message' => 'Le mot de passe est obligatoire.']),
-                    new Length([
-                        'min'        => 6,
-                        'minMessage' => 'Le mot de passe doit faire au moins {{ limit }} caractères.',
-                        'max'        => 255,
-                    ]),
+                    new NotBlank(message: 'Le mot de passe est obligatoire.'),
+                    new Length(
+                        min: 6,
+                        minMessage: 'Le mot de passe doit faire au moins {{ limit }} caractères.',
+                        max: 255,
+                    ),
                 ],
             ]);
     }

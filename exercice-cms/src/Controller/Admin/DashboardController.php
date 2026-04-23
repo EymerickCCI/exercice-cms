@@ -6,6 +6,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\CommentaryRepository;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -22,16 +23,16 @@ class DashboardController extends AbstractDashboardController
 
     public function index(): Response
     {
-        $totalArticles     = $this->articleRepository->count([]);
+        $totalArticles = $this->articleRepository->count([]);
         $publishedArticles = $this->articleRepository->count(['isPublished' => true]);
-        $pendingComments   = $this->commentaryRepository->count(['isApprouved' => false]);
-        $totalUsers        = $this->userRepository->count([]);
+        $pendingComments = $this->commentaryRepository->count(['isApprouved' => false]);
+        $totalUsers = $this->userRepository->count([]);
 
         return $this->render('admin/dashboard.html.twig', [
-            'total_articles'     => $totalArticles,
+            'total_articles' => $totalArticles,
             'published_articles' => $publishedArticles,
-            'pending_comments'   => $pendingComments,
-            'total_users'        => $totalUsers,
+            'pending_comments' => $pendingComments,
+            'total_users' => $totalUsers,
         ]);
     }
 
@@ -40,6 +41,29 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('<span style="color:#4fa3ff">Mon</span>CMS Admin')
             ->renderContentMaximized();
+    }
+
+    public function configureAssets(): Assets
+    {
+        return parent::configureAssets()
+            ->addJsFile('https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js')
+            ->addHtmlContentToBody(<<<'HTML'
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    ['article_content', 'page_content'].forEach(function (id) {
+        var element = document.getElementById(id);
+
+        if (element && typeof CKEDITOR !== 'undefined' && !CKEDITOR.instances[id]) {
+            CKEDITOR.replace(id, {
+                height: 300,
+                uiColor: '#ffffff',
+                toolbar: 'Full'
+            });
+        }
+    });
+});
+</script>
+HTML);
     }
 
     public function configureMenuItems(): iterable
@@ -52,10 +76,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Commentaires', 'fa fa-comments', 'admin_commentary_index');
 
         yield MenuItem::section('Taxonomie');
-        yield MenuItem::linkToRoute('Catégories', 'fa fa-folder', 'admin_category_index');
+        yield MenuItem::linkToRoute('Categories', 'fa fa-folder', 'admin_category_index');
         yield MenuItem::linkToRoute('Tags', 'fa fa-tags', 'admin_tag_index');
 
-        yield MenuItem::section('Médias');
+        yield MenuItem::section('Medias');
         yield MenuItem::linkToRoute('Galeries', 'fa fa-images', 'admin_gallery_index');
         yield MenuItem::linkToRoute('Images', 'fa fa-image', 'admin_image_index');
 
@@ -63,6 +87,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Utilisateurs', 'fa fa-users', 'admin_user_index');
 
         yield MenuItem::section('');
-        yield MenuItem::linkToUrl('← Retour au site', 'fa fa-arrow-left', '/');
+        yield MenuItem::linkToRoute('Retour au site', 'fa fa-arrow-left', 'app_home');
     }
 }

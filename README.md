@@ -117,38 +117,3 @@ mdp : 123456
 /galeries → liste
 /galerie/{id} → détail
 
-
-
-Actuellement il manque : 
-    -> Design 
-    -> EasyAdmin (avec DashboardController et CrudController de User, Page, Article, Tag, Galerie/image, Commentaire)
-    -> Fonctionnalités : 
-        - page inscription 
-        - Restriction par rôle / restriction route (security.yaml)
-         Rôles utilisateurs :
-            - Administrateur : gestion complète du CMS.
-            - Rédacteur : création et modification de pages et d'articles.
-            - Utilisateur : accès pub
-        - Gestion des images dans EasyAdmin et leur affichage dans les articles etc...
-
-        Gestion des galeries photos
-            - Création de galeries avec catégories.
-            - Ajout et suppression d'images (upload sécurisé).
-            - Possibilité d'ajouter des légendes aux images.
-
-        - Gestion commentaires + gestion (modération, activation/désactivation).
-
-        - Visibilité Articles selon isPublish fonctionne mais page admin permettre de les modifier à nouveau en isPublish car disparaissent
-        - améliorer le fil d'arianne
-        - régler la date dans un article par exemple qui affiche "26 MarMarMarMar 2026"
-        - Sauvegarde auto 
-
-En gros principalement :
-EasyAdmin — le bundle est installé mais il n'y a aucun DashboardController ni CrudController EasyAdmin.
-Upload d'images pour les galeries — GalleryController et ImageController ne gèrent pas l'upload de fichiers (contrairement à ArticleController).
-Formulaire de commentaire côté front — sur la page article/show, les commentaires approuvés s'affichent mais il n'y a pas de formulaire pour en soumettre un.
-Templates basiques non stylisés — gallery, tag, category, commentary, image, user ont encore les templates générés par le maker (tableaux bruts).
-
-
-Possibilité : 
-    - Slugify pour slug automatique si titre vide

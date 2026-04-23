@@ -21,8 +21,8 @@ class CommentFormType extends AbstractType
             ->add('nameAuthor', TextType::class, [
                 'label'       => 'Votre nom',
                 'constraints' => [
-                    new NotBlank(['message' => 'Votre nom est requis.']),
-                    new Length(['max' => 255]),
+                    new NotBlank(message: 'Votre nom est requis.'),
+                    new Length(max: 255),
                 ],
                 'attr' => ['placeholder' => 'Jean Dupont'],
             ])
@@ -30,15 +30,15 @@ class CommentFormType extends AbstractType
                 'label'    => 'Votre email (non publié)',
                 'required' => false,
                 'constraints' => [
-                    new Email(['message' => 'Email invalide.']),
+                    new Email(message: 'Email invalide.'),
                 ],
                 'attr' => ['placeholder' => 'email@exemple.fr'],
             ])
             ->add('content', TextareaType::class, [
                 'label'       => 'Votre commentaire',
                 'constraints' => [
-                    new NotBlank(['message' => 'Le commentaire ne peut pas être vide.']),
-                    new Length(['min' => 5, 'minMessage' => 'Trop court (min 5 caractères).']),
+                    new NotBlank(message: 'Le commentaire ne peut pas être vide.'),
+                    new Length(min: 5, minMessage: 'Trop court (min 5 caractères).'),
                 ],
                 'attr' => ['rows' => 4, 'placeholder' => 'Écrivez votre commentaire…'],
             ]);

@@ -67,8 +67,7 @@ class PageCrudController extends AbstractCrudController
 
         yield TextareaField::new('content', 'Contenu')
             ->hideOnIndex()
-            ->setNumOfRows(15)
-            ->setHelp('Vous pouvez utiliser du HTML (CKEditor actif)');
+            ->setNumOfRows(15);
 
         yield TextField::new('metaDescription', 'Méta-description')
             ->hideOnIndex()

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Commentary;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminCrud;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -91,6 +92,7 @@ class CommentaryCrudController extends AbstractCrudController
             ->setFormat('dd/MM/yyyy HH:mm');
     }
 
+    #[AdminRoute(path: '/approve', name: 'approve', options: ['methods' => ['GET']])]
     public function approveComment(AdminUrlGenerator $adminUrlGenerator, EntityManagerInterface $em): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $id = $this->getContext()->getRequest()->query->getInt('entityId');
@@ -107,6 +109,7 @@ class CommentaryCrudController extends AbstractCrudController
             ->generateUrl());
     }
 
+    #[AdminRoute(path: '/reject', name: 'reject', options: ['methods' => ['GET']])]
     public function rejectComment(AdminUrlGenerator $adminUrlGenerator, EntityManagerInterface $em): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $id = $this->getContext()->getRequest()->query->getInt('entityId');
